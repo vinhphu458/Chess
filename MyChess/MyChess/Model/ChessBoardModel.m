@@ -138,9 +138,7 @@
 
 -(void) onDefeatEnemyAtPosition:(int)position{
     destinationChess = [_chessList objectAtIndex:position];
-    destinationChess.tag = Empty;
-    destinationChess.icon = nil;
-    destinationChess.type = -1;
+    [destinationChess setEmpty];
     
     [_chessList setObject:originChess atIndexedSubscript:position];
     [_chessList setObject:destinationChess atIndexedSubscript:selectedPosition];

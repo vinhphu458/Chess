@@ -16,4 +16,9 @@
     }
     return self;
 }
+-(void)setEmpty{
+    self.tag = Empty;
+    self.icon = nil;
+    self.type = -1;
+}
 @end

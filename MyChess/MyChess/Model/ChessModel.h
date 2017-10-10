@@ -18,6 +18,6 @@ typedef enum {
 @property (nonatomic, assign) ChessPiece tag;
 @property (nonatomic, assign) int type;
 @property (nonatomic, strong) NSString* icon;
-
+-(void) setEmpty;
 @end
 
