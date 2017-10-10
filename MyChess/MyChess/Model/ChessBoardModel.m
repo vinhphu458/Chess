@@ -30,11 +30,11 @@
 
 -(void)addChess:(OnChessAdded)onChessAdded atPosition:(int)position{
     if(position < 16){
-        onChessAdded([self addBlackChess:position]);
+        onChessAdded([self addUperChess:position]);
         return;
     }
     if(position > 47){
-        onChessAdded([self addWhiteChess:position]);
+        onChessAdded([self addBelowChess:position]);
         return;
     }
     ChessModel* chess = [[ChessModel alloc] init];
@@ -43,10 +43,10 @@
     [_chessList setObject:chess atIndexedSubscript:position];
 }
 
--(ChessModel*)addWhiteChess:(int) position {
+-(ChessModel*)addBelowChess:(int) position {
     ChessModel *chess = [_chessList objectAtIndex:position];
     chess.position = position;
-    chess.type = 1;
+    chess.type = BELOW_TEAM;
     
     if(position == 56 || position==63){
         chess.tag = Rook;
@@ -71,10 +71,10 @@
     return chess;
 }
 
--(ChessModel*) addBlackChess:(int) position {
+-(ChessModel*) addUperChess:(int) position {
     ChessModel *chess = [_chessList objectAtIndex:position];
     chess.position = position;
-    chess.type = 2;
+    chess.type = UPPER_TEAM;
     
     if(position == 0 || position==7){
         chess.tag = Rook;
@@ -114,6 +114,7 @@
 }
 
 - (void)onMoveChessToPositon:(int)position {
+    
     NSLog(@"Model: onMoveChessToPositon %d", position);
     destinationChess = [_chessList objectAtIndex:position];
     [_chessList setObject:originChess atIndexedSubscript:position];
@@ -129,6 +130,7 @@
     NSLog(@"Model: onSelectedChess %d", position);
     selectedPosition = position;
     originChess = [_chessList objectAtIndex:position];
+    
 }
 
 -(void) printChessBoard{

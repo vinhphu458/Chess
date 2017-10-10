@@ -24,7 +24,8 @@
 #define TEAM_ONE_TO_INDEX 63
 #define TEAM_TWO_FROM_INDEX 0
 #define TEAM_TWO_TO_INDEX 15
-
+#define UPPER_TEAM 0
+#define BELOW_TEAM 1
 //Chess icons
 #define wKING @"white_king"
 #define wQUEEN @"white_queen"

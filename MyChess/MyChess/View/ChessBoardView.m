@@ -12,6 +12,8 @@
     ChessBoardModel* chessBoard;
     UIImageView* selectedChess;
     UIImageView* destinationView;
+    GameController* controller;
+    int fromPosition;
 }
 
 @end
@@ -21,13 +23,13 @@
     self = [super initWithFrame:frame];
     if(self){
         chessBoard = [[ChessBoardModel alloc] init];
+        controller = [[GameController alloc] init];
     }
     return self;
 }
+
 -(void)drawRect:(CGRect)rect{
-    NSLog(@"on Draw Chess Board");
     [super drawRect:rect];
-    
     cellSide = self.frame.size.width / COLLUMN_SIZE;
     CGContextRef context = UIGraphicsGetCurrentContext();
     
@@ -41,6 +43,7 @@
         
         [self addChess:i withSize:cellSize];
     }
+    [controller addListChess:[chessBoard chessList]];
 }
 
 -(void) addChess:(int) position withSize:(CGRect) cellSize {
@@ -59,16 +62,28 @@
 }
 
 - (void)onMoveChessToPositon:(int)position {
+
+    [selectedChess setBackgroundColor:nil];//reset background
+    
+    NSLog(@"Move: %@",((ChessModel*) [chessBoard.chessList objectAtIndex:fromPosition]).icon);
+    if(![controller canMove:fromPosition toPosition:position]){
+        return;
+    }
+    //change turn when move success
+    controller.game_turn = 1 - controller.game_turn;
     //swap view
     CGRect temp = destinationView.frame;
     [destinationView setFrame:selectedChess.frame];
     [selectedChess setFrame:temp];
-    
-    [selectedChess setBackgroundColor:nil];//reset background
-    [chessBoard onMoveChessToPositon:position];//trigger to model
+    //trigger to model
+    [chessBoard onMoveChessToPositon:position];
 }
 
 - (void)onSelectedChess:(int)position {
+    ChessModel* chess = [[chessBoard chessList] objectAtIndex:position];
+    if(chess.type != [controller game_turn]) return;
+    
+    fromPosition = position;
     [selectedChess setBackgroundColor:[Utils colorFromHex:SELECTED_COLOR]];//set selected background
     [chessBoard onSelectedChess:position];//trigger to model
 }

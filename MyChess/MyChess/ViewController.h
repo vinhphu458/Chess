@@ -7,7 +7,6 @@
 //
 
 #import "ChessBoardView.h"
-#import "View.h"
 @interface ViewController : UIViewController
 
 @end

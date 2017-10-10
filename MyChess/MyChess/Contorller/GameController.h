@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ChessModel.h"
+#import "Constant.h"
 
 @interface GameController : NSObject
-
+-(void) addListChess:(NSMutableArray*) listChess;
+-(bool) canMove:(int) from toPosition:(int) position;
+@property (nonatomic) int game_turn;//0(upper team) - 1(below team)
 @end

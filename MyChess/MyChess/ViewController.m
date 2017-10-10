@@ -8,8 +8,9 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
-
+@interface ViewController (){
+    ChessBoardView* chessBoard;
+}
 @end
 
 @implementation ViewController
@@ -18,14 +19,13 @@
     [super viewDidLoad];
     
     int center = (mSCREEN_HEIGHT - mSCREEN_WIDTH)/2;
-    ChessBoardView* board = [[ChessBoardView alloc] initWithFrame:CGRectMake(0, center, mSCREEN_WIDTH, mSCREEN_WIDTH)];
-    [self.view addSubview:board];
+    chessBoard = [[ChessBoardView alloc] initWithFrame:CGRectMake(0, center, mSCREEN_WIDTH, mSCREEN_WIDTH)];
+    [self.view addSubview:chessBoard];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end

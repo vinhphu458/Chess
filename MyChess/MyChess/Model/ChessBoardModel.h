@@ -9,6 +9,7 @@
 #import "ChessModel.h"
 #import "Constant.h"
 #import "InteractionOnChessEvent.h"
+#import "GameController.h"
 
 typedef void (^OnChessAdded)(ChessModel*);
 @interface ChessBoardModel : NSObject<InteractionOnChessEvent>
