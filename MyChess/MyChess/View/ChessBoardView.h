@@ -9,6 +9,6 @@
 #import "ChessBoardModel.h"
 #import "Utils.h"
 #import "InteractionOnChessEvent.h"
-
-@interface ChessBoardView : UIView<InteractionOnChessEvent>
+#import "BaseView.h"
+@interface ChessBoardView : BaseView<InteractionOnChessEvent>
 @end

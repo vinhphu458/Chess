@@ -9,5 +9,11 @@
 #import "ChessModel.h"
 
 @implementation ChessModel
-
+-(id)init{
+    self = [super init];
+    if(self){
+        _type = -1;//empty cell
+    }
+    return self;
+}
 @end

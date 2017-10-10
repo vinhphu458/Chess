@@ -19,14 +19,24 @@
 -(id)init{
     self = [super init];
     _chessList  = [[NSMutableArray alloc] init];
+    
     for(int i = 0; i < CHESS_BOARD_SIZE; i++){
         ChessModel* chess = [[ChessModel alloc] init];
         chess.tag = Empty;
         chess.position = i;
         [_chessList addObject:chess];
     }
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveMessage:) name:@"chess" object:nil];
     return self;
 }
+
+//- (void)dealloc{
+//    [self removeObserver:self forKeyPath:@"move"];
+//}
+//
+//-(void) onReceiveMessage:(NSNotification *) notification{
+//    NSLog(@"%@", (NSString*)[notification object]);
+//}
 
 -(void)addChess:(OnChessAdded)onChessAdded atPosition:(int)position{
     if(position < 16){
@@ -109,28 +119,43 @@
 }
 
 - (void)onDeselectedChess:(int)position {
-    NSLog(@"Model: onDeselectedChess %d", position);
     
 }
 
-- (void)onMoveChessToPositon:(int)position {
-    
-    NSLog(@"Model: onMoveChessToPositon %d", position);
+- (void)onMoveChessToPositon:(int)position {    
     destinationChess = [_chessList objectAtIndex:position];
     [_chessList setObject:originChess atIndexedSubscript:position];
     [_chessList setObject:destinationChess atIndexedSubscript:selectedPosition];
+    originChess = nil;
+    destinationChess = nil;
     
-    originChess =nil;
-    destinationChess =nil;
+//    MoveModel* movement = [[MoveModel alloc] init];
+//    [movement setFromPosition:selectedPosition toPosition:position moveState:Move];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"chess" object:movement];
     
     [self printChessBoard];
 }
 
+-(void) onDefeatEnemyAtPosition:(int)position{
+    destinationChess = [_chessList objectAtIndex:position];
+    destinationChess.tag = Empty;
+    destinationChess.icon = nil;
+    destinationChess.type = -1;
+    
+    [_chessList setObject:originChess atIndexedSubscript:position];
+    [_chessList setObject:destinationChess atIndexedSubscript:selectedPosition];
+    originChess = nil;
+    destinationChess = nil;
+    
+//    MoveModel* movement = [[MoveModel alloc] init];
+//    [movement setFromPosition:selectedPosition toPosition:position moveState:Eat];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"chess" object:movement];
+    [self printChessBoard];
+}
+
 - (void)onSelectedChess:(int)position {
-    NSLog(@"Model: onSelectedChess %d", position);
     selectedPosition = position;
     originChess = [_chessList objectAtIndex:position];
-    
 }
 
 -(void) printChessBoard{

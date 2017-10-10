@@ -41,4 +41,5 @@
 #define bBISHOP @"black_bishop"
 #define bPAWN @"black_pawn"
 
+#define TAG_OFFSET(index) (index + 1);
 #endif /* Constant_h */

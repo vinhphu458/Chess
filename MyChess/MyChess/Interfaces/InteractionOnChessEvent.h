@@ -12,4 +12,5 @@
 -(void) onSelectedChess:(int) position;
 -(void) onDeselectedChess:(int) position;
 -(void) onMoveChessToPositon:(int) position;
+-(void) onDefeatEnemyAtPosition:(int) position;
 @end

@@ -9,9 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "ChessModel.h"
 #import "Constant.h"
+#import "MoveModel.h"
+
+typedef void (^OnMoveState)(MoveState);
 
 @interface GameController : NSObject
 -(void) addListChess:(NSMutableArray*) listChess;
--(bool) canMove:(int) from toPosition:(int) position;
+-(void) move:(int) from toPosition:(int) position state: (OnMoveState)state;
 @property (nonatomic) int game_turn;//0(upper team) - 1(below team)
+-(void) changeGameTurn;
 @end

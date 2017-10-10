@@ -7,9 +7,6 @@
 //
 
 #import "GameController.h"
-typedef enum {
-    Move, Eat, Keep
-} MoveType;
 
 @interface GameController(){
     NSMutableArray* _listChess;
@@ -28,21 +25,38 @@ typedef enum {
 -(void)addListChess:(NSMutableArray *)listChess{
     _listChess = listChess;
 }
-
--(bool)canMove:(int)from toPosition:(int) position{
+-(void)move:(int)from toPosition:(int)position state:(OnMoveState)state{
     origin = from;
     destination = position;
     ChessModel* chess = ((ChessModel*)[_listChess objectAtIndex:from]);
     NSLog(@"Move: %@ from %d to %d", chess.icon, from, position);
     switch (chess.tag) {
-        case King: return [self KingTile];
-        case Queen: return [self QueenTile];
-        case Bishop: return [self BishopTile];
-        case Knight: return [self KnightTile];
-        case Rook: return [self RookTile];
-        case Pawn: return [self PawnTile: chess.type];
-        default: return false;
+        case King:
+            state([self KingTile]);
+            break;
+        case Queen:
+            state([self QueenTile]);
+            break;
+        case Bishop:
+            state([self BishopTile]);
+            break;
+        case Knight:
+            state([self KnightTile]);
+            break;
+        case Rook:
+            state([self RookTile]);
+            break;
+        case Pawn:
+            state([self PawnTile:chess.type]);
+            break;
+        default:
+            state(Keep);
+            break;
     }
+}
+
+-(void) changeGameTurn{
+    _game_turn = 1 - _game_turn;
 }
 
 //for pawn
@@ -112,7 +126,7 @@ typedef enum {
 -(bool) isEatAction{
     int one = ((ChessModel*)[_listChess objectAtIndex: origin]).type;
     int two = ((ChessModel*)[_listChess objectAtIndex: destination]).type;
-    return one!=two;
+    return one!=two && two!=-1;
 }
 
 -(bool) isMove{
@@ -172,99 +186,98 @@ typedef enum {
 }
 
 //King movements
--(bool) KingTile{
+-(MoveState) KingTile{
     if([self isMove] && ([self moveHorizontal_1] || [self moveVertical_1] || [self moveDiagonal_1])){
-        return true;
+        return Move;
     }
     if([self isEatAction] && ([self moveHorizontal_1] || [self moveVertical_1] || [self moveDiagonal_1])){
-        return true;
+        return Eat;
     }
-    return false;
+    return Keep;
 }
 //Queen movements
--(bool) QueenTile {
-    if([self BishopTile]){
-        NSLog(@"like Bishop move");
-        return true;
+-(MoveState) QueenTile {
+    if([self moveDiagonal]){
+        return [self BishopTile];
     }
-    if([self RookTile]){
-        NSLog(@"like Rook move");
-        return true;
+    if([self moveStraightVertical] || [self moveStraightHorizontal]){
+        return [self RookTile];
     }
-    return false;
+    return Keep;
 }
 //Bishop movements
--(bool) BishopTile{
+-(MoveState) BishopTile{
     if([self isMove]){
         if([self moveDiagonal] && ![self hasPiecesOnDiaglonalWay]){
-            return true;
+            return Move;
         }
     }
     if([self isEatAction]){
         if([self moveDiagonal] && ![self hasPiecesOnDiaglonalWay]){
-            return true;
+            return Eat;
         }
     }
-    return false;
+    return Keep;
 }
 //Knight movements
--(bool) KnightTile{
+-(MoveState) KnightTile{
     if([self moveLShape] && [self isMove]){
-        return true;
-    }else if([self moveLShape] && [self isEatAction]){
-        return true;
+        return Move;
     }
-    return false;
+    if([self moveLShape] && [self isEatAction]){
+        return Eat;
+    }
+    return Keep;
 }
 //Rook movements
--(bool) RookTile{
+-(MoveState) RookTile{
     if([self isMove] ){
         if([self moveStraightHorizontal] && ![self hasPiecesOnStraightHorizontalWay]){
-            return true;
+            return Move;
         }
         if([self moveStraightVertical] && ![self hasPiecesOnStraightVerticalWay]){
-            return true;
+            return Move;
         }
     }
     if([self isEatAction]){
         if([self moveStraightHorizontal] && ![self hasPiecesOnStraightHorizontalWay]){
-            return true;
+            return Eat;
         }
         if([self moveStraightVertical] && ![self hasPiecesOnStraightVerticalWay]){
-            return true;
+            return Eat;
         }
     }
-    return false;
+    return Keep;
 }
 //Pawn movements
--(bool) PawnTile:(int) type{
+-(MoveState) PawnTile:(int) type{
     // pawns below
     if(type == BELOW_TEAM){
         if([self isFirstMove:BELOW_TEAM] && [self moveStraightVertical] && ![self hasPiecesOnStraightVerticalWay] && [self isMove]){
-            return true;
+            return Move;
         }
         if([self moveStraightUp1] && [self isMove]){
-            return true;
+            return Move;
         }
         if([self isEatAction] && [self moveDiagonalUp1]){
-            return true;
+            return Eat;
         }
-        return false;
+        return Keep;
     }
     //pawns upper
     if(type == UPPER_TEAM){
         if([self isFirstMove:UPPER_TEAM] && [self moveStraightVertical] && ![self hasPiecesOnStraightVerticalWay] && [self isMove]){
-            return true;
+            return Move;
         }
         if([self moveStraightDown1] && [self isMove]){
-            return true;
+            return Move;
         }
         if([self isEatAction] && [self moveDiagonalDown1]){
-            return true;
+            return Eat;
         }
-        return false;
+        return Keep;
     }
-    return false;
+    return Keep;
 }
 
 @end

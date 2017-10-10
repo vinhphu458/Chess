@@ -14,6 +14,7 @@
     UIImageView* destinationView;
     GameController* controller;
     int fromPosition;
+    //    ObserverUtil* notifier;
 }
 
 @end
@@ -49,7 +50,7 @@
 -(void) addChess:(int) position withSize:(CGRect) cellSize {
     UIImageView *ico = [[UIImageView alloc] initWithFrame:cellSize];
     [self setUpOnclickEvent:ico];
-    ico.tag = position;
+    ico.tag = TAG_OFFSET(position);
     [chessBoard addChess:^(ChessModel* chess){
         ico.image = [UIImage imageNamed:chess.icon];
     } atPosition:position];
@@ -62,27 +63,59 @@
 }
 
 - (void)onMoveChessToPositon:(int)position {
-
     [selectedChess setBackgroundColor:nil];//reset background
     
-    NSLog(@"Move: %@",((ChessModel*) [chessBoard.chessList objectAtIndex:fromPosition]).icon);
-    if(![controller canMove:fromPosition toPosition:position]){
-        return;
+    [controller move:fromPosition toPosition:position state:^(MoveState state) {
+        switch (state) {
+            case Move:
+                //trigger to model
+                [chessBoard onMoveChessToPositon:position];
+                [self updateChessView:fromPosition and:position];
+                //change turn when move success
+                [controller changeGameTurn];
+                break;
+            case Eat:
+                //trigger to model
+                [chessBoard onDefeatEnemyAtPosition:position];
+                [self updateChessView:fromPosition and:position];
+                //change turn when move success
+                [controller changeGameTurn];
+                break;
+            default: return;
+        }
+    }];
+}
+
+-(void) onDefeatEnemyAtPosition:(int)position{
+    
+}
+
+-(void) updateChessView:(int)origin and:(int) destination{
+    ChessModel* originChess = [[chessBoard chessList] objectAtIndex:origin];
+    ChessModel* destinationChess = [[chessBoard chessList] objectAtIndex:destination];
+    origin = TAG_OFFSET(origin);
+    destination = TAG_OFFSET(destination);
+    
+    if(originChess.icon.length == 0){
+        [((UIImageView*)[self viewWithTag:origin]) setImage: nil];
+    }else{
+        [((UIImageView*)[self viewWithTag:origin]) setImage: [UIImage imageNamed:originChess.icon]];
     }
-    //change turn when move success
-    controller.game_turn = 1 - controller.game_turn;
-    //swap view
-    CGRect temp = destinationView.frame;
-    [destinationView setFrame:selectedChess.frame];
-    [selectedChess setFrame:temp];
-    //trigger to model
-    [chessBoard onMoveChessToPositon:position];
+    if(destinationChess.icon.length == 0){
+        [((UIImageView*)[self viewWithTag:destination]) setImage: nil];
+    }else{
+        [((UIImageView*)[self viewWithTag:destination]) setImage: [UIImage imageNamed:destinationChess.icon]];
+    }
 }
 
 - (void)onSelectedChess:(int)position {
+    //check player turn
     ChessModel* chess = [[chessBoard chessList] objectAtIndex:position];
-    if(chess.type != [controller game_turn]) return;
-    
+    if(chess.type != [controller game_turn]) {
+        selectedChess = nil;
+        return;
+    }
+    //
     fromPosition = position;
     [selectedChess setBackgroundColor:[Utils colorFromHex:SELECTED_COLOR]];//set selected background
     [chessBoard onSelectedChess:position];//trigger to model
