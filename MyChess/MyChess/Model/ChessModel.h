@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "Location.h"
 typedef enum {
     King, Queen, Bishop, Knight, Rook, Pawn, Empty
 } ChessPiece;
 
 @interface ChessModel : NSObject
 
-@property (nonatomic, assign) int position;
+@property (nonatomic, strong) Location* location;
 @property (nonatomic, assign) ChessPiece tag;
 @property (nonatomic, assign) int type;
 @property (nonatomic, strong) NSString* icon;

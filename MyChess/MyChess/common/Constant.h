@@ -26,20 +26,30 @@
 #define TEAM_TWO_TO_INDEX 15
 #define UPPER_TEAM 0
 #define BELOW_TEAM 1
-//Chess icons
-#define wKING @"white_king"
-#define wQUEEN @"white_queen"
-#define wROOK @"white_rook"
-#define wKNIGHT @"white_knight"
-#define wBISHOP @"white_bishop"
-#define wPAWN @"white_pawn"
+//spec values
+#define CHESS_EMPTY -1
+#define VERTICAL_UP 8
+#define VERTICAL_DOWN -8
+#define HORIZONTAL_LEFT -1
+#define HORIZONTAL_RIGHT 1
+#define DIAGONAL_R_U_L_D 7
+#define DIAGONAL_L_U_R_D 9
 
-#define bKING @"black_king"
-#define bQUEEN @"black_queen"
-#define bROOK @"black_rook"
-#define bKNIGHT @"black_knight"
-#define bBISHOP @"black_bishop"
-#define bPAWN @"black_pawn"
+
+#define CHESS_ICON(color, chess) [NSString stringWithFormat:@"%@_%@", color, chess]
+//Chess colors prefix
+#define WHITE @"white"
+#define BLACK @"black"
+
+//Chess icons suffix
+#define KING @"king"
+#define QUEEN @"queen"
+#define ROOK @"rook"
+#define KNIGHT @"knight"
+#define BISHOP @"bishop"
+#define PAWN @"pawn"
 
 #define TAG_OFFSET(index) (index + 1);
+
+#define LOCATION(x, y) [[Location alloc]initX:x Y:y]
 #endif /* Constant_h */

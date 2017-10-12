@@ -23,99 +23,87 @@
     for(int i = 0; i < CHESS_BOARD_SIZE; i++){
         ChessModel* chess = [[ChessModel alloc] init];
         chess.tag = Empty;
-        chess.position = i;
+        chess.location.x = i%COLLUMN_SIZE;
+        chess.location.y = i/COLLUMN_SIZE;
         [_chessList addObject:chess];
     }
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveMessage:) name:@"chess" object:nil];
     return self;
 }
 
-//- (void)dealloc{
-//    [self removeObserver:self forKeyPath:@"move"];
-//}
-//
-//-(void) onReceiveMessage:(NSNotification *) notification{
-//    NSLog(@"%@", (NSString*)[notification object]);
-//}
-
 -(void)addChess:(OnChessAdded)onChessAdded atPosition:(int)position{
     if(position < 16){
-        onChessAdded([self addUperChess:position]);
+        onChessAdded([self addUpperChess:position color:BLACK]);
         return;
     }
     if(position > 47){
-        onChessAdded([self addBelowChess:position]);
+        onChessAdded([self addBelowChess:position color:WHITE]);
         return;
     }
     ChessModel* chess = [[ChessModel alloc] init];
     chess.tag = Empty;
-    chess.position = position;
+    chess.location.x = position%COLLUMN_SIZE;
+    chess.location.y = position/COLLUMN_SIZE;
     [_chessList setObject:chess atIndexedSubscript:position];
 }
 
--(ChessModel*)addBelowChess:(int) position {
+
+
+-(ChessModel*)addBelowChess:(int) position color:(NSString*)color {
     ChessModel *chess = [_chessList objectAtIndex:position];
-    chess.position = position;
+    chess.location.x = position%COLLUMN_SIZE;
+    chess.location.y = position/COLLUMN_SIZE;
     chess.type = BELOW_TEAM;
-    
     if(position == 56 || position==63){
         chess.tag = Rook;
-        chess.icon = wROOK;
+        chess.icon = CHESS_ICON(color, ROOK);
     }else if(position==57 || position==62){
         chess.tag = Knight;
-        chess.icon = wKNIGHT;
+        chess.icon = CHESS_ICON(color, KNIGHT);
     }else if(position==58 || position==61){
         chess.tag = Bishop;
-        chess.icon = wBISHOP;
+        chess.icon = CHESS_ICON(color, BISHOP);
     }else if(position==59){
         chess.tag = Queen;
-        chess.icon = wQUEEN;
+        chess.icon = CHESS_ICON(color, QUEEN);
     }else if(position==60){
         chess.tag = King;
-        chess.icon = wKING;
+        chess.icon = CHESS_ICON(color, KING);
     }else{
         chess.tag = Pawn;
-        chess.icon = wPAWN;
+        chess.icon = CHESS_ICON(color, PAWN);
     }
+    
     [_chessList setObject:chess atIndexedSubscript:position];
     return chess;
 }
 
--(ChessModel*) addUperChess:(int) position {
+-(ChessModel*) addUpperChess:(int) position color:(NSString*)color {
     ChessModel *chess = [_chessList objectAtIndex:position];
-    chess.position = position;
+    chess.location.x = position%COLLUMN_SIZE;
+    chess.location.y = position/COLLUMN_SIZE;
     chess.type = UPPER_TEAM;
     
     if(position == 0 || position==7){
         chess.tag = Rook;
-        chess.icon = bROOK;
+        chess.icon = CHESS_ICON(color, ROOK);
     }else if(position==1 || position==6){
         chess.tag = Knight;
-        chess.icon = bKNIGHT;
+        chess.icon = CHESS_ICON(color, KNIGHT);
     }else if(position==2 || position==5){
         chess.tag = Bishop;
-        chess.icon = bBISHOP;
+        chess.icon = CHESS_ICON(color, BISHOP);
     }else if(position==3){
-        chess.tag = King;
-        chess.icon = bKING;
-    }else if(position==4){
         chess.tag = Queen;
-        chess.icon = bQUEEN;
+        chess.icon = CHESS_ICON(color, QUEEN);
+    }else if(position==4){
+        chess.tag = King;
+        chess.icon = CHESS_ICON(color, KING);
     }else{
         chess.tag = Pawn;
-        chess.icon = bPAWN;
+        chess.icon = CHESS_ICON(color, PAWN);
     }
-    
     [_chessList setObject:chess atIndexedSubscript:position];
     return chess;
-}
-
--(void)removeChess:(int) position{
-    
-}
-
--(void)replaceChess:(int)position with:(ChessModel *)chess{
-    
 }
 
 - (void)onDeselectedChess:(int)position {

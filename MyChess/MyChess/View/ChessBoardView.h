@@ -10,5 +10,7 @@
 #import "Utils.h"
 #import "InteractionOnChessEvent.h"
 #import "BaseView.h"
+#import "ChessBoard.h"
+
 @interface ChessBoardView : BaseView<InteractionOnChessEvent>
 @end

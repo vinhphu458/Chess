@@ -7,14 +7,16 @@
 //
 
 #import "ChessBoardView.h"
+#import "BaseChess.h"
+
 @interface ChessBoardView()<UIGestureRecognizerDelegate>{
     double cellSide;
     ChessBoardModel* chessBoard;
     UIImageView* selectedChess;
     UIImageView* destinationView;
     GameController* controller;
-    int fromPosition;
-    //    ObserverUtil* notifier;
+    int fromPosition, toPosition;
+    ChessBoard* newChessBoard;
 }
 
 @end
@@ -24,9 +26,45 @@
     self = [super initWithFrame:frame];
     if(self){
         chessBoard = [[ChessBoardModel alloc] init];
+        newChessBoard = [[ChessBoard alloc] init];
         controller = [[GameController alloc] init];
+        [self stateChangedCallBack];
     }
     return self;
+}
+-(void)stateChangedCallBack{
+    __weak typeof(self) weakSelf = self;
+    [controller setStateChangedListener:^(MoveState state) {
+        NSLog(@"Move state %lu", (unsigned long)state);
+        switch (state) {
+            case Move:
+                [weakSelf stateMoveUpdate];
+                break;
+            case Checkmate:
+                NSLog(@"Checkmate");
+                break;
+            case Eat:
+                [weakSelf stateDefeatUpdate];
+                break;
+            default: return;
+        }
+    }];
+}
+
+-(void)stateMoveUpdate{
+    //trigger to model
+    [chessBoard onMoveChessToPositon:toPosition];
+    [self updateChessView:fromPosition and:toPosition];
+    //change turn when move success
+    [controller changeGameTurn];
+}
+
+-(void) stateDefeatUpdate{
+    //trigger to model
+    [chessBoard onDefeatEnemyAtPosition:toPosition];
+    [self updateChessView:fromPosition and:toPosition];
+    //change turn when move success
+    [controller changeGameTurn];
 }
 
 -(void)drawRect:(CGRect)rect{
@@ -41,10 +79,25 @@
         
         [Utils setCGContextColor:context hexColor:(row + col) % 2 == 0 ? CHESS_BOARD_COLOR1 : CHESS_BOARD_COLOR2];
         CGContextFillRect(context, cellSize);
-        
+//        [self addChessView:i withSize:cellSize];
         [self addChess:i withSize:cellSize];
     }
     [controller addListChess:[chessBoard chessList]];
+    
+    
+}
+
+//new models
+-(void)addChessView:(int) position withSize:(CGRect) cellSize{
+    UIImageView *ico = [[UIImageView alloc] initWithFrame:cellSize];
+    [self setUpOnclickEvent:ico];
+    ico.tag = TAG_OFFSET(position);
+    BaseChess* chess = [newChessBoard.chessList objectAtIndex:position];
+    if(chess != (id)[NSNull null]){
+        ico.image = [UIImage imageNamed:[chess icon]];
+        NSLog(@"Chess != null %d - %@", position, [chess icon]);
+    }
+    [self addSubview:ico];
 }
 
 -(void) addChess:(int) position withSize:(CGRect) cellSize {
@@ -60,30 +113,14 @@
 - (void)onDeselectedChess:(int)position {
     [selectedChess setBackgroundColor:nil];//reset background
     [chessBoard onDeselectedChess:position];//trigger to model
+    fromPosition = -1;
 }
 
 - (void)onMoveChessToPositon:(int)position {
+    toPosition = position;
     [selectedChess setBackgroundColor:nil];//reset background
-    
-    [controller move:fromPosition toPosition:position state:^(MoveState state) {
-        switch (state) {
-            case Move:
-                //trigger to model
-                [chessBoard onMoveChessToPositon:position];
-                [self updateChessView:fromPosition and:position];
-                //change turn when move success
-                [controller changeGameTurn];
-                break;
-            case Eat:
-                //trigger to model
-                [chessBoard onDefeatEnemyAtPosition:position];
-                [self updateChessView:fromPosition and:position];
-                //change turn when move success
-                [controller changeGameTurn];
-                break;
-            default: return;
-        }
-    }];
+    [controller move:fromPosition toPosition:toPosition];
+    toPosition=-1;
 }
 
 -(void) onDefeatEnemyAtPosition:(int)position{
@@ -111,7 +148,7 @@
 - (void)onSelectedChess:(int)position {
     //check player turn
     ChessModel* chess = [[chessBoard chessList] objectAtIndex:position];
-    if(chess.type != [controller game_turn]) {
+    if(chess.type == [controller game_turn]%2) {//0(Below Team) - 1(Upper Team)
         selectedChess = nil;
         return;
     }
