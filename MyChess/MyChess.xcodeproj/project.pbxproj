@@ -18,9 +18,6 @@
 		84EE02E21F8325A70006DB66 /* MyChessTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EE02E11F8325A70006DB66 /* MyChessTests.m */; };
 		84EE02ED1F8325A70006DB66 /* MyChessUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EE02EC1F8325A70006DB66 /* MyChessUITests.m */; };
 		84EE03111F83850E0006DB66 /* ChessBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EE03101F83850E0006DB66 /* ChessBoardView.m */; };
-		84EE03181F8394AD0006DB66 /* ChessBoardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EE03171F8394AD0006DB66 /* ChessBoardModel.m */; };
-		84EE031F1F8480A10006DB66 /* ChessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EE031E1F8480A10006DB66 /* ChessModel.m */; };
-		84EE03221F8480B10006DB66 /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EE03211F8480B10006DB66 /* GameController.m */; };
 		84EE03391F8722FC0006DB66 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EE03381F8722FC0006DB66 /* Utils.m */; };
 		84F9D94C1F8CA73200365510 /* BaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D94B1F8CA73200365510 /* BaseView.m */; };
 		84F9D9521F8DBA1E00365510 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D9511F8DBA1E00365510 /* Location.m */; };
@@ -75,12 +72,6 @@
 		84EE02EE1F8325A70006DB66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84EE030F1F83850E0006DB66 /* ChessBoardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChessBoardView.h; sourceTree = "<group>"; };
 		84EE03101F83850E0006DB66 /* ChessBoardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChessBoardView.m; sourceTree = "<group>"; };
-		84EE03161F8394AD0006DB66 /* ChessBoardModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChessBoardModel.h; sourceTree = "<group>"; };
-		84EE03171F8394AD0006DB66 /* ChessBoardModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChessBoardModel.m; sourceTree = "<group>"; };
-		84EE031D1F8480A10006DB66 /* ChessModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChessModel.h; sourceTree = "<group>"; };
-		84EE031E1F8480A10006DB66 /* ChessModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChessModel.m; sourceTree = "<group>"; };
-		84EE03201F8480B10006DB66 /* GameController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameController.h; sourceTree = "<group>"; };
-		84EE03211F8480B10006DB66 /* GameController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameController.m; sourceTree = "<group>"; };
 		84EE03231F8487870006DB66 /* Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
 		84EE03371F8722FC0006DB66 /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		84EE03381F8722FC0006DB66 /* Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
@@ -197,10 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				84F9D9711F8F4A1B00365510 /* NewModel */,
-				84EE03161F8394AD0006DB66 /* ChessBoardModel.h */,
-				84EE03171F8394AD0006DB66 /* ChessBoardModel.m */,
-				84EE031D1F8480A10006DB66 /* ChessModel.h */,
-				84EE031E1F8480A10006DB66 /* ChessModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -208,8 +195,6 @@
 		84EE03151F83949A0006DB66 /* Contorller */ = {
 			isa = PBXGroup;
 			children = (
-				84EE03201F8480B10006DB66 /* GameController.h */,
-				84EE03211F8480B10006DB66 /* GameController.m */,
 				84F9D9561F8E0E4C00365510 /* Checker.h */,
 				84F9D9571F8E0E4C00365510 /* Checker.m */,
 			);
@@ -410,18 +395,15 @@
 				84F9D9701F8F3D1D00365510 /* BaseChess.m in Sources */,
 				84EE03111F83850E0006DB66 /* ChessBoardView.m in Sources */,
 				84EE02CD1F8325A70006DB66 /* ViewController.m in Sources */,
-				84EE031F1F8480A10006DB66 /* ChessModel.m in Sources */,
 				84EE03391F8722FC0006DB66 /* Utils.m in Sources */,
 				84F9D9521F8DBA1E00365510 /* Location.m in Sources */,
 				84EE02D81F8325A70006DB66 /* main.m in Sources */,
-				84EE03221F8480B10006DB66 /* GameController.m in Sources */,
 				84F9D9641F8F02CE00365510 /* Bishop.m in Sources */,
 				84F9D9611F8F02C100365510 /* Knight.m in Sources */,
 				84F9D96D1F8F0EE100365510 /* ChessBoard.m in Sources */,
 				84F9D94C1F8CA73200365510 /* BaseView.m in Sources */,
 				84F9D9581F8E0E4C00365510 /* Checker.m in Sources */,
 				84F9D95E1F8F02AA00365510 /* Rook.m in Sources */,
-				84EE03181F8394AD0006DB66 /* ChessBoardModel.m in Sources */,
 				84F9D9671F8F02DB00365510 /* Queen.m in Sources */,
 				84EE02CA1F8325A70006DB66 /* AppDelegate.m in Sources */,
 				84F9D96A1F8F02E800365510 /* King.m in Sources */,

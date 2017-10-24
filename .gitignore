@@ -61,3 +61,10 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+MyChess/.idea/modules.xml
+MyChess/.idea/MyChess.iml
+MyChess/.idea/vcs.xml
+MyChess/.idea/workspace.xml
+MyChess/.idea/xcode.xml
+MyChess/.idea/dictionaries/admin.xml
+MyChess/.idea/inspectionProfiles/Project_Default.xml
