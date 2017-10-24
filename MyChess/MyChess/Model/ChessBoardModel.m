@@ -110,7 +110,7 @@
     
 }
 
-- (void)onMoveChessToPositon:(int)position {    
+- (void)onMoveChessToPosition:(int)position {
     destinationChess = [_chessList objectAtIndex:position];
     [_chessList setObject:originChess atIndexedSubscript:position];
     [_chessList setObject:destinationChess atIndexedSubscript:selectedPosition];

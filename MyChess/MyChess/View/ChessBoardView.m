@@ -9,178 +9,194 @@
 #import "ChessBoardView.h"
 #import "BaseChess.h"
 
-@interface ChessBoardView()<UIGestureRecognizerDelegate>{
-    double cellSide;
-    ChessBoardModel* chessBoard;
-    UIImageView* selectedChess;
-    UIImageView* destinationView;
-    GameController* controller;
+@implementation ChessBoardView {
+    CGFloat cellSide;
+    UIImageView *selectedChess;
+    UIImageView *destinationView;
     int fromPosition, toPosition;
-    ChessBoard* newChessBoard;
+    ChessBoard *newChessBoard;
 }
-
-@end
-
-@implementation ChessBoardView
--(id) initWithFrame:(CGRect)frame{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if(self){
-        chessBoard = [[ChessBoardModel alloc] init];
+    if (self) {
         newChessBoard = [[ChessBoard alloc] init];
-        controller = [[GameController alloc] init];
         [self stateChangedCallBack];
     }
     return self;
 }
--(void)stateChangedCallBack{
-    __weak typeof(self) weakSelf = self;
-    [controller setStateChangedListener:^(MoveState state) {
-        NSLog(@"Move state %lu", (unsigned long)state);
-        switch (state) {
-            case Move:
-                [weakSelf stateMoveUpdate];
-                break;
-            case Checkmate:
-                NSLog(@"Checkmate");
-                break;
-            case Eat:
-                [weakSelf stateDefeatUpdate];
-                break;
-            default: return;
+
+- (ChessBoard *)getChessBoard {
+    return newChessBoard;
+}
+
+- (void)stateChangedCallBack {
+    __weak typeof(self) _self = self;
+    [newChessBoard setOnChessMovedStatus:^(State state, NSArray *positionsChanged) {
+        NSLog(@"Emitted state: %lu", (unsigned long) state);
+        if (state == Keep) {
+            //[_self highLightMoves];
+        }
+
+        if (state & Move || state & Eat) {
+            [_self refreshViewAt:positionsChanged];
+            //[_self unHighlightMoves];
+            if (state & Check) {
+
+            }
+            if (state & Checkmate) {
+                [self showCheckmate: newChessBoard.turn_by_team];
+            }
+            if (state & Pawn_Promotion) {
+            }
+            if (state & Pawn_EnPassant) {
+
+            }
         }
     }];
 }
 
--(void)stateMoveUpdate{
-    //trigger to model
-    [chessBoard onMoveChessToPositon:toPosition];
-    [self updateChessView:fromPosition and:toPosition];
-    //change turn when move success
-    [controller changeGameTurn];
+- (void)highLightMoves {
+    for (int i = 0; i < newChessBoard.locations.count; i++) {
+        int index = [newChessBoard.locations[i] toIndex];
+        int tag = TAG_OFFSET(index);
+        UIView *view = [self viewWithTag:tag];
+        [view setBackgroundColor:[Utils colorFromHex:SELECTED_COLOR]];
+    }
 }
 
--(void) stateDefeatUpdate{
-    //trigger to model
-    [chessBoard onDefeatEnemyAtPosition:toPosition];
-    [self updateChessView:fromPosition and:toPosition];
-    //change turn when move success
-    [controller changeGameTurn];
+- (void)unHighlightMoves {
+    for (int i = 0; i < newChessBoard.locations.count; i++) {
+        int index = [newChessBoard.locations[i] toIndex];
+        int tag = TAG_OFFSET(index);
+        UIView *view = [self viewWithTag:tag];
+        [view setBackgroundColor:nil];
+    }
 }
 
--(void)drawRect:(CGRect)rect{
+- (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     cellSide = self.frame.size.width / COLLUMN_SIZE;
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    for(int i = 0; i < CHESS_BOARD_SIZE; i++){
-        int col = i%COLLUMN_SIZE;
-        int row = i/COLLUMN_SIZE;
-        CGRect cellSize = CGRectMake((CGFloat)col*cellSide, (CGFloat)row*cellSide, cellSide, cellSide);
-        
+    for (int i = 0; i < CHESS_BOARD_SIZE; i++) {
+        int col = i % COLLUMN_SIZE;
+        int row = i / COLLUMN_SIZE;
+        CGRect cellSize = CGRectMake(col * cellSide, row * cellSide, cellSide, cellSide);
+
         [Utils setCGContextColor:context hexColor:(row + col) % 2 == 0 ? CHESS_BOARD_COLOR1 : CHESS_BOARD_COLOR2];
         CGContextFillRect(context, cellSize);
-//        [self addChessView:i withSize:cellSize];
-        [self addChess:i withSize:cellSize];
+        [self addChessView:i withSize:cellSize];
     }
-    [controller addListChess:[chessBoard chessList]];
-    
-    
 }
 
 //new models
--(void)addChessView:(int) position withSize:(CGRect) cellSize{
-    UIImageView *ico = [[UIImageView alloc] initWithFrame:cellSize];
+- (void)addChessView:(int)position withSize:(CGRect)cellSize {
+    CGRect resize = CGRectMake(cellSize.origin.x + 1, cellSize.origin.y + 1, cellSize.size.width - 2, cellSize.size.height - 2);
+    UIImageView *ico = [[UIImageView alloc] initWithFrame:resize];
     [self setUpOnclickEvent:ico];
     ico.tag = TAG_OFFSET(position);
-    BaseChess* chess = [newChessBoard.chessList objectAtIndex:position];
-    if(chess != (id)[NSNull null]){
+    BaseChess *chess = newChessBoard.chessList[position];
+    if (chess != (id) [NSNull null]) {
         ico.image = [UIImage imageNamed:[chess icon]];
-        NSLog(@"Chess != null %d - %@", position, [chess icon]);
     }
-    [self addSubview:ico];
-}
-
--(void) addChess:(int) position withSize:(CGRect) cellSize {
-    UIImageView *ico = [[UIImageView alloc] initWithFrame:cellSize];
-    [self setUpOnclickEvent:ico];
-    ico.tag = TAG_OFFSET(position);
-    [chessBoard addChess:^(ChessModel* chess){
-        ico.image = [UIImage imageNamed:chess.icon];
-    } atPosition:position];
     [self addSubview:ico];
 }
 
 - (void)onDeselectedChess:(int)position {
     [selectedChess setBackgroundColor:nil];//reset background
-    [chessBoard onDeselectedChess:position];//trigger to model
+    [newChessBoard onDeselectedChess:position];
     fromPosition = -1;
+    [self unHighlightMoves];
 }
 
-- (void)onMoveChessToPositon:(int)position {
+- (void)onMoveChessToPosition:(int)position {
     toPosition = position;
     [selectedChess setBackgroundColor:nil];//reset background
-    [controller move:fromPosition toPosition:toPosition];
-    toPosition=-1;
+    [newChessBoard onMoveChessToPosition:position];
+    toPosition = -1;
 }
 
--(void) onDefeatEnemyAtPosition:(int)position{
-    
+- (void)refreshViewAt:(NSArray *)positions {
+    for (NSNumber *pos in positions) {
+        BaseChess *chess = [newChessBoard chessList][[pos intValue]];
+        int tag = TAG_OFFSET([pos intValue]);
+        if ([Utils isNull:chess]) {
+            [(UIImageView *) [self viewWithTag:tag] setImage:nil];
+        } else {
+            [(UIImageView *) [self viewWithTag:tag] setImage:[UIImage imageNamed:chess.icon]];
+        }
+    }
 }
 
--(void) updateChessView:(int)origin and:(int) destination{
-    ChessModel* originChess = [[chessBoard chessList] objectAtIndex:origin];
-    ChessModel* destinationChess = [[chessBoard chessList] objectAtIndex:destination];
+- (void)updateChessView:(int)origin and:(int)destination {
+    BaseChess *destinationChess = [newChessBoard chessList][destination];
+    BaseChess *originChess = [newChessBoard chessList][origin];
     origin = TAG_OFFSET(origin);
     destination = TAG_OFFSET(destination);
-    
-    if(originChess.icon.length == 0){
-        [((UIImageView*)[self viewWithTag:origin]) setImage: nil];
-    }else{
-        [((UIImageView*)[self viewWithTag:origin]) setImage: [UIImage imageNamed:originChess.icon]];
+    if ([Utils isNull:originChess]) {
+        [((UIImageView *) [self viewWithTag:origin]) setImage:nil];
+    } else {
+        [((UIImageView *) [self viewWithTag:origin]) setImage:[UIImage imageNamed:originChess.icon]];
     }
-    if(destinationChess.icon.length == 0){
-        [((UIImageView*)[self viewWithTag:destination]) setImage: nil];
-    }else{
-        [((UIImageView*)[self viewWithTag:destination]) setImage: [UIImage imageNamed:destinationChess.icon]];
+    if ([Utils isNull:destinationChess]) {
+        [((UIImageView *) [self viewWithTag:destination]) setImage:nil];
+    } else {
+        [((UIImageView *) [self viewWithTag:destination]) setImage:[UIImage imageNamed:destinationChess.icon]];
     }
+
 }
 
 - (void)onSelectedChess:(int)position {
-    //check player turn
-    ChessModel* chess = [[chessBoard chessList] objectAtIndex:position];
-    if(chess.type == [controller game_turn]%2) {//0(Below Team) - 1(Upper Team)
+    BaseChess *selected = newChessBoard.chessList[position];
+    if (selected.team != newChessBoard.turn_by_team) {
         selectedChess = nil;
         return;
     }
-    //
+    if(self.board.game_end){
+        selectedChess = nil;
+        return;
+    }
     fromPosition = position;
     [selectedChess setBackgroundColor:[Utils colorFromHex:SELECTED_COLOR]];//set selected background
-    [chessBoard onSelectedChess:position];//trigger to model
+    [newChessBoard onSelectedChess:position];//trigger to model
 }
 
--(int) pointToPosition:(CGPoint) point{
-    return point.x/cellSide + COLLUMN_SIZE*(point.y)/cellSide;
+- (int)pointToPosition:(CGPoint)point {
+    return (int) (point.x / cellSide + COLLUMN_SIZE * (point.y) / cellSide);
 }
 
--(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    UIImageView* selected = (UIImageView*)touch.view;
+
+- (void)showCheckmate:(int) team {
+    NSString *teamWin = [NSString stringWithFormat:@"%@ Win", team == UPPER_TEAM ? @"Black" : @"White"];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Checkmate"
+                                                                   message:teamWin
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
+                                                          }];
+    [alert addAction:defaultAction];
+    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    UIImageView *selected = (UIImageView *) touch.view;
     int position = [self pointToPosition:selected.frame.origin];
     //on select chess
-    if(selectedChess == nil && selected.image){
+    if (selectedChess == nil && selected.image) {
         selectedChess = selected;
         destinationView = nil;
         [self onSelectedChess:position];
         return true;
     }
     //on move chess
-    if(selectedChess!=nil && selected!= selectedChess){
+    if (selectedChess != nil && selected != selectedChess) {
         destinationView = selected;
-        [self onMoveChessToPositon:position];
+        [self onMoveChessToPosition:position];
         selectedChess = nil;
         return true;
     }
     //on de-select chess
-    if(selected == selectedChess){
+    if (selected == selectedChess) {
         [self onDeselectedChess:position];
         selectedChess = nil;
         destinationView = nil;
@@ -190,7 +206,7 @@
 }
 
 //set up click event for each block
--(void) setUpOnclickEvent:(id) view{
+- (void)setUpOnclickEvent:(id)view {
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:nil];
     singleTap.numberOfTapsRequired = 1;
     [view setUserInteractionEnabled:YES];

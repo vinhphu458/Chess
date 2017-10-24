@@ -7,7 +7,9 @@
 //
 
 #import "ChessBoardView.h"
-@interface ViewController : UIViewController
+#import "UndoRedoView.h"
 
+@interface ViewController : UIViewController
+-(void) initChessBoardView;
 @end
 

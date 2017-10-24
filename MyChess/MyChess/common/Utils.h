@@ -12,4 +12,5 @@
 @interface Utils : NSObject
 +(void) setCGContextColor:(CGContextRef) context hexColor:(int) hexCode;
 +(UIColor *)colorFromHex:(int)hexCode;
++(BOOL) isNull:(id)obj;
 @end

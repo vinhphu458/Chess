@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "Utils.h"
+#import "Constant.h"
 @interface BaseView : UIView
 // -(void) onReceiveMessage:(NSNotification *) notification;
 @end

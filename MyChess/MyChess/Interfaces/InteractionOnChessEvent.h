@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @protocol InteractionOnChessEvent <NSObject>
--(void) onSelectedChess:(int) position;
--(void) onDeselectedChess:(int) position;
--(void) onMoveChessToPositon:(int) position;
--(void) onDefeatEnemyAtPosition:(int) position;
+- (void)onSelectedChess:(int)position;
+
+- (void)onDeselectedChess:(int)position;
+
+- (void)onMoveChessToPosition:(int)position;
 @end

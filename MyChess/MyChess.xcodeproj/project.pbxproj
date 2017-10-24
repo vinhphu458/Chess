@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		586031B40F94E6388E9FBC7D /* Movement.m in Sources */ = {isa = PBXBuildFile; fileRef = 58603268B52C434F26B9DF4A /* Movement.m */; };
+		5860372BEEBB85E3B63E51CF /* UndoRedoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860323554E4FD14A61BBBCF /* UndoRedoView.m */; };
 		84EE02CA1F8325A70006DB66 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EE02C91F8325A70006DB66 /* AppDelegate.m */; };
 		84EE02CD1F8325A70006DB66 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EE02CC1F8325A70006DB66 /* ViewController.m */; };
 		84EE02D01F8325A70006DB66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84EE02CE1F8325A70006DB66 /* Main.storyboard */; };
@@ -20,8 +22,17 @@
 		84EE031F1F8480A10006DB66 /* ChessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EE031E1F8480A10006DB66 /* ChessModel.m */; };
 		84EE03221F8480B10006DB66 /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EE03211F8480B10006DB66 /* GameController.m */; };
 		84EE03391F8722FC0006DB66 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EE03381F8722FC0006DB66 /* Utils.m */; };
-		84F9D9451F8B19F300365510 /* ObserverUitil.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D9441F8B19F300365510 /* ObserverUitil.m */; };
-		84F9D9481F8B2CFF00365510 /* KingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D9471F8B2CFF00365510 /* KingModel.m */; };
+		84F9D94C1F8CA73200365510 /* BaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D94B1F8CA73200365510 /* BaseView.m */; };
+		84F9D9521F8DBA1E00365510 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D9511F8DBA1E00365510 /* Location.m */; };
+		84F9D9581F8E0E4C00365510 /* Checker.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D9571F8E0E4C00365510 /* Checker.m */; };
+		84F9D95B1F8EFC6B00365510 /* Pawn.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D95A1F8EFC6B00365510 /* Pawn.m */; };
+		84F9D95E1F8F02AA00365510 /* Rook.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D95D1F8F02AA00365510 /* Rook.m */; };
+		84F9D9611F8F02C100365510 /* Knight.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D9601F8F02C100365510 /* Knight.m */; };
+		84F9D9641F8F02CE00365510 /* Bishop.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D9631F8F02CE00365510 /* Bishop.m */; };
+		84F9D9671F8F02DB00365510 /* Queen.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D9661F8F02DB00365510 /* Queen.m */; };
+		84F9D96A1F8F02E800365510 /* King.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D9691F8F02E800365510 /* King.m */; };
+		84F9D96D1F8F0EE100365510 /* ChessBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D96C1F8F0EE100365510 /* ChessBoard.m */; };
+		84F9D9701F8F3D1D00365510 /* BaseChess.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F9D96F1F8F3D1D00365510 /* BaseChess.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +53,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		58603114881578CFCC3A2040 /* UndoRedoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UndoRedoView.h; sourceTree = "<group>"; };
+		5860323554E4FD14A61BBBCF /* UndoRedoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UndoRedoView.m; sourceTree = "<group>"; };
+		58603268B52C434F26B9DF4A /* Movement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Movement.m; sourceTree = "<group>"; };
+		58603E14CD002D9673B33DD6 /* Movement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Movement.h; sourceTree = "<group>"; };
 		84EE02C51F8325A70006DB66 /* MyChess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyChess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84EE02C81F8325A70006DB66 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		84EE02C91F8325A70006DB66 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -70,11 +85,28 @@
 		84EE03371F8722FC0006DB66 /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		84EE03381F8722FC0006DB66 /* Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		84EE033B1F8741E10006DB66 /* InteractionOnChessEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InteractionOnChessEvent.h; sourceTree = "<group>"; };
-		84F9D9431F8B19F300365510 /* ObserverUitil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObserverUitil.h; sourceTree = "<group>"; };
-		84F9D9441F8B19F300365510 /* ObserverUitil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObserverUitil.m; sourceTree = "<group>"; };
-		84F9D9461F8B2CFF00365510 /* KingModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KingModel.h; sourceTree = "<group>"; };
-		84F9D9471F8B2CFF00365510 /* KingModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KingModel.m; sourceTree = "<group>"; };
-		84F9D9491F8B2D7E00365510 /* Movement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Movement.h; sourceTree = "<group>"; };
+		84F9D94A1F8CA73200365510 /* BaseView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseView.h; sourceTree = "<group>"; };
+		84F9D94B1F8CA73200365510 /* BaseView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseView.m; sourceTree = "<group>"; };
+		84F9D9501F8DBA1E00365510 /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		84F9D9511F8DBA1E00365510 /* Location.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		84F9D9561F8E0E4C00365510 /* Checker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Checker.h; sourceTree = "<group>"; };
+		84F9D9571F8E0E4C00365510 /* Checker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Checker.m; sourceTree = "<group>"; };
+		84F9D9591F8EFC6B00365510 /* Pawn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Pawn.h; sourceTree = "<group>"; };
+		84F9D95A1F8EFC6B00365510 /* Pawn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Pawn.m; sourceTree = "<group>"; };
+		84F9D95C1F8F02AA00365510 /* Rook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rook.h; sourceTree = "<group>"; };
+		84F9D95D1F8F02AA00365510 /* Rook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Rook.m; sourceTree = "<group>"; };
+		84F9D95F1F8F02C100365510 /* Knight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Knight.h; sourceTree = "<group>"; };
+		84F9D9601F8F02C100365510 /* Knight.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Knight.m; sourceTree = "<group>"; };
+		84F9D9621F8F02CE00365510 /* Bishop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bishop.h; sourceTree = "<group>"; };
+		84F9D9631F8F02CE00365510 /* Bishop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bishop.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		84F9D9651F8F02DB00365510 /* Queen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Queen.h; sourceTree = "<group>"; };
+		84F9D9661F8F02DB00365510 /* Queen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Queen.m; sourceTree = "<group>"; };
+		84F9D9681F8F02E800365510 /* King.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = King.h; sourceTree = "<group>"; };
+		84F9D9691F8F02E800365510 /* King.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = King.m; sourceTree = "<group>"; };
+		84F9D96B1F8F0EE100365510 /* ChessBoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChessBoard.h; sourceTree = "<group>"; };
+		84F9D96C1F8F0EE100365510 /* ChessBoard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChessBoard.m; sourceTree = "<group>"; };
+		84F9D96E1F8F3D1D00365510 /* BaseChess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseChess.h; sourceTree = "<group>"; };
+		84F9D96F1F8F3D1D00365510 /* BaseChess.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseChess.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,12 +196,11 @@
 		84EE03141F83948B0006DB66 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				84F9D9711F8F4A1B00365510 /* NewModel */,
 				84EE03161F8394AD0006DB66 /* ChessBoardModel.h */,
 				84EE03171F8394AD0006DB66 /* ChessBoardModel.m */,
 				84EE031D1F8480A10006DB66 /* ChessModel.h */,
 				84EE031E1F8480A10006DB66 /* ChessModel.m */,
-				84F9D9461F8B2CFF00365510 /* KingModel.h */,
-				84F9D9471F8B2CFF00365510 /* KingModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -179,6 +210,8 @@
 			children = (
 				84EE03201F8480B10006DB66 /* GameController.h */,
 				84EE03211F8480B10006DB66 /* GameController.m */,
+				84F9D9561F8E0E4C00365510 /* Checker.h */,
+				84F9D9571F8E0E4C00365510 /* Checker.m */,
 			);
 			path = Contorller;
 			sourceTree = "<group>";
@@ -189,8 +222,6 @@
 				84EE03231F8487870006DB66 /* Constant.h */,
 				84EE03371F8722FC0006DB66 /* Utils.h */,
 				84EE03381F8722FC0006DB66 /* Utils.m */,
-				84F9D9431F8B19F300365510 /* ObserverUitil.h */,
-				84F9D9441F8B19F300365510 /* ObserverUitil.m */,
 			);
 			path = common;
 			sourceTree = "<group>";
@@ -200,6 +231,10 @@
 			children = (
 				84EE030F1F83850E0006DB66 /* ChessBoardView.h */,
 				84EE03101F83850E0006DB66 /* ChessBoardView.m */,
+				84F9D94A1F8CA73200365510 /* BaseView.h */,
+				84F9D94B1F8CA73200365510 /* BaseView.m */,
+				5860323554E4FD14A61BBBCF /* UndoRedoView.m */,
+				58603114881578CFCC3A2040 /* UndoRedoView.h */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -208,9 +243,35 @@
 			isa = PBXGroup;
 			children = (
 				84EE033B1F8741E10006DB66 /* InteractionOnChessEvent.h */,
-				84F9D9491F8B2D7E00365510 /* Movement.h */,
 			);
 			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		84F9D9711F8F4A1B00365510 /* NewModel */ = {
+			isa = PBXGroup;
+			children = (
+				84F9D9501F8DBA1E00365510 /* Location.h */,
+				84F9D9511F8DBA1E00365510 /* Location.m */,
+				84F9D9591F8EFC6B00365510 /* Pawn.h */,
+				84F9D95A1F8EFC6B00365510 /* Pawn.m */,
+				84F9D95C1F8F02AA00365510 /* Rook.h */,
+				84F9D95D1F8F02AA00365510 /* Rook.m */,
+				84F9D95F1F8F02C100365510 /* Knight.h */,
+				84F9D9601F8F02C100365510 /* Knight.m */,
+				84F9D9621F8F02CE00365510 /* Bishop.h */,
+				84F9D9631F8F02CE00365510 /* Bishop.m */,
+				84F9D9651F8F02DB00365510 /* Queen.h */,
+				84F9D9661F8F02DB00365510 /* Queen.m */,
+				84F9D9681F8F02E800365510 /* King.h */,
+				84F9D9691F8F02E800365510 /* King.m */,
+				84F9D96B1F8F0EE100365510 /* ChessBoard.h */,
+				84F9D96C1F8F0EE100365510 /* ChessBoard.m */,
+				84F9D96E1F8F3D1D00365510 /* BaseChess.h */,
+				84F9D96F1F8F3D1D00365510 /* BaseChess.m */,
+				58603268B52C434F26B9DF4A /* Movement.m */,
+				58603E14CD002D9673B33DD6 /* Movement.h */,
+			);
+			name = NewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -346,16 +407,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84F9D9701F8F3D1D00365510 /* BaseChess.m in Sources */,
 				84EE03111F83850E0006DB66 /* ChessBoardView.m in Sources */,
 				84EE02CD1F8325A70006DB66 /* ViewController.m in Sources */,
 				84EE031F1F8480A10006DB66 /* ChessModel.m in Sources */,
 				84EE03391F8722FC0006DB66 /* Utils.m in Sources */,
-				84F9D9481F8B2CFF00365510 /* KingModel.m in Sources */,
+				84F9D9521F8DBA1E00365510 /* Location.m in Sources */,
 				84EE02D81F8325A70006DB66 /* main.m in Sources */,
 				84EE03221F8480B10006DB66 /* GameController.m in Sources */,
-				84F9D9451F8B19F300365510 /* ObserverUitil.m in Sources */,
+				84F9D9641F8F02CE00365510 /* Bishop.m in Sources */,
+				84F9D9611F8F02C100365510 /* Knight.m in Sources */,
+				84F9D96D1F8F0EE100365510 /* ChessBoard.m in Sources */,
+				84F9D94C1F8CA73200365510 /* BaseView.m in Sources */,
+				84F9D9581F8E0E4C00365510 /* Checker.m in Sources */,
+				84F9D95E1F8F02AA00365510 /* Rook.m in Sources */,
 				84EE03181F8394AD0006DB66 /* ChessBoardModel.m in Sources */,
+				84F9D9671F8F02DB00365510 /* Queen.m in Sources */,
 				84EE02CA1F8325A70006DB66 /* AppDelegate.m in Sources */,
+				84F9D96A1F8F02E800365510 /* King.m in Sources */,
+				84F9D95B1F8EFC6B00365510 /* Pawn.m in Sources */,
+				586031B40F94E6388E9FBC7D /* Movement.m in Sources */,
+				5860372BEEBB85E3B63E51CF /* UndoRedoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
